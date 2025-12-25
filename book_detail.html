@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<div class="add-book-page">
+  <div class="detail-book-card full-width">
+    <div class="row g-0">
+      <div class="col-md-5">
+        {% if book.cover_url %}
+          <img src="{{ book.cover_url }}" class="book-cover rounded-start h-100 w-100 object-fit-cover" alt="{{ book.title }}">
+        {% else %}
+          <div class="placeholder-cover detail-cover d-flex align-items-center justify-content-center">
+            <span>{{ book.title[0] }}</span>
+          </div>
+        {% endif %}
+      </div>
+      <div class="col-md-7">
+        <div class="card-body">
+          <h3 class="card-title">{{ book.title }}</h3>
+          <p class="text-muted mb-1">{{ book.author }}</p>
+          <p class="small text-secondary mb-2">{{ book.genre.name if book.genre }}</p>
+          <p class="card-text">{{ book.description }}</p>
+
+          {% if current_user.is_authenticated %}
+            <a href="{{ url_for('books.toggle_favorite', book_id=book.id) }}" class="btn btn-outline-primary me-2">
+              {% if book in current_user.favorites %}В обраному{% else %}Додати в обране{% endif %}
+            </a>
+            <a href="{{ url_for('books.toggle_read', book_id=book.id) }}" class="btn btn-outline-success me-2">
+              {% if book in current_user.read %}Прочитано{% else %}Позначити як прочитану{% endif %}
+            </a>
+            <form method="post" action="{{ url_for('books.delete_book', book_id=book.id) }}" class="d-inline"
+                  onsubmit="return confirm('Точно видалити цю книгу?');">
+              <button type="submit" class="btn btn-outline-danger">Видалити</button>
+            </form>
+          {% else %}
+            <p class="mt-3 small text-muted">
+              Щоб додати книгу в обране або видаляти її, увійдіть у свій акаунт.
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

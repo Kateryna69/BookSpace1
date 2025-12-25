@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Нова книга{% endblock %}
+
+{% block content %}
+<div class="add-book-page">
+  <div class="add-book-card">
+        <h3 class="mb-3">Додати книгу</h3>
+        <form method="post">
+          {{ form.csrf_token }}
+          <div class="mb-3">
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control") }}
+            {% for error in form.title.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <div class="mb-3">
+            {{ form.author.label(class="form-label") }}
+            {{ form.author(class="form-control") }}
+            {% for error in form.author.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <div class="mb-3">
+            {{ form.genre.label(class="form-label") }}
+            {{ form.genre(class="form-select") }}
+            {% for error in form.genre.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <div class="mb-3">
+            {{ form.cover_url.label(class="form-label") }}
+            {{ form.cover_url(class="form-control") }}
+            {% for error in form.cover_url.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+          <div class="mb-3">
+            {{ form.description.label(class="form-label") }}
+            {{ form.description(class="form-control", rows=4) }}
+            {% for error in form.description.errors %}
+              <div class="form-error">{{ error }}</div>
+            {% endfor %}
+          </div>
+          {{ form.submit(class="btn btn-primary") }}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
